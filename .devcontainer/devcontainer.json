@@ -1,0 +1,4 @@
+{
+  "name": "Sistema Vila Vida",
+  "postStartCommand": "sudo service mysql start"
+}
