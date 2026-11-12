@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Sistema Vila Vida</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #edf3f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            color: #17324f;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1050px;
+            min-height: 570px;
+            display: grid;
+            grid-template-columns: 48% 52%;
+            background: white;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 20px 55px rgba(7, 43, 78, .15);
+        }
+
+        .area-login {
+            background: linear-gradient(145deg, #073766, #10558b);
+            padding: 50px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .marca {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .marca .icone {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .marca h1 {
+            font-size: 34px;
+            margin: 0 0 8px;
+            letter-spacing: 2px;
+        }
+
+        .marca p {
+            font-size: 14px;
+            color: #d4e6f6;
+            margin: 0;
+        }
+
+        .login {
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+        }
+
+        .login h2 {
+            margin: 0 0 8px;
+            font-size: 23px;
+            color: #073766;
+        }
+
+        .subtitulo {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin: 17px 0 7px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
+            transition: .2s;
+        }
+
+        input:focus {
+            border-color: #0875d1;
+            box-shadow: 0 0 0 3px rgba(8, 117, 209, .12);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 25px;
+            background: #0875d1;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        button:hover {
+            background: #065ca5;
+        }
+
+        .erro {
+            color: #b91c1c;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .area-imagem {
+    position: relative;
+    background:
+        linear-gradient(
+            to top,
+            rgba(4, 39, 68, .85),
+            rgba(4, 39, 68, .05) 65%
+        ),
+        url("/imagens/login-vila-vida.png")
+        center / cover no-repeat;
+    display: flex;
+    align-items: flex-end;
+    padding: 45px;
+}
+
+        .mensagem {
+            color: white;
+            max-width: 420px;
+        }
+
+        .mensagem h2 {
+            font-size: 30px;
+            line-height: 1.2;
+            margin: 0 0 14px;
+        }
+
+        .mensagem p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #e2e8f0;
+            margin: 0;
+        }
+
+        .rodape {
+            text-align: center;
+            color: #d4e6f6;
+            font-size: 12px;
+            margin-top: 25px;
+        }
+
+        @media (max-width: 760px) {
+            body {
+                padding: 12px;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .area-imagem {
+                grid-row: 1;
+                min-height: 180px;
+                padding: 24px;
+            }
+
+            .mensagem h2 {
+                font-size: 23px;
+            }
+
+            .mensagem p {
+                font-size: 13px;
+            }
+
+            .area-login {
+                padding: 30px 22px;
+            }
+
+            .login {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <section class="area-login">
+
+        <div class="marca">
+            <div class="icone">⌂</div>
+            <h1>VILA VIDA</h1>
+            <p>Sistema de Gerenciamento Institucional</p>
+        </div>
+
+        <div class="login">
+            <h2>Bem-vindo!</h2>
+            <p class="subtitulo">
+                Informe suas credenciais para acessar o sistema.
+            </p>
+
+            <p id="erro" class="erro" hidden>
+                Usuário ou senha incorretos.
+            </p>
+
+            <form th:action="@{/login}" method="post">
+
+                <label for="username">Usuário</label>
+                <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    autocomplete="username"
+                    placeholder="Digite seu usuário"
+                    required
+                >
+
+                <label for="password">Senha</label>
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autocomplete="current-password"
+                    placeholder="Digite sua senha"
+                    required
+                >
+
+                <button type="submit">
+                    Entrar no Sistema
+                </button>
+
+            </form>
+        </div>
+
+        <div class="rodape">
+            Vila Vida • Santo Antônio do Descoberto - GO
+        </div>
+
+    </section>
+
+    <aside class="area-imagem">
+        <div class="mensagem">
+            <h2>Cuidado, acolhimento e qualidade de vida.</h2>
+            <p>
+                Tecnologia a serviço da organização,
+                do bem-estar e do cuidado com as pessoas.
+            </p>
+        </div>
+    </aside>
+
+</div>
+
+<script>
+    if (new URLSearchParams(location.search).has("error")) {
+        document.getElementById("erro").hidden = false;
+    }
+</script>
+
+</body>
+</html>

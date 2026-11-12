@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Relatório de Funcionários | Vila Vida</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f6fb;
+            color: #19324d;
+        }
+
+        .topo {
+            background: #073766;
+            color: white;
+            padding: 22px 30px;
+        }
+
+        .topo h1 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        .conteudo {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .acoes {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .botao {
+            display: inline-block;
+            background: #0875d1;
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 7px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .botao:hover {
+            background: #073766;
+        }
+
+        .relatorio {
+            background: white;
+            border: 1px solid #dbe5f0;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px #00000010;
+        }
+
+        .relatorio h2 {
+            margin-top: 0;
+            color: #073766;
+        }
+
+        .resumo {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .indicador {
+            background: #f2f6fb;
+            border: 1px solid #dbe5f0;
+            border-radius: 9px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .indicador strong {
+            display: block;
+            font-size: 28px;
+            color: #073766;
+            margin-bottom: 8px;
+        }
+
+        .indicador span {
+            font-size: 13px;
+        }
+
+        .tabela-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background: #073766;
+            color: white;
+            text-align: left;
+            padding: 13px;
+        }
+
+        td {
+            padding: 12px 13px;
+            border-bottom: 1px solid #dbe5f0;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f5f8fc;
+        }
+
+        .rodape {
+            margin-top: 30px;
+            text-align: center;
+            color: #607287;
+            font-size: 12px;
+        }
+
+        @media (max-width: 700px) {
+            .resumo {
+                grid-template-columns: 1fr;
+            }
+
+            .relatorio {
+                padding: 15px;
+            }
+        }
+
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 15mm;
+            }
+
+            body {
+                background: white;
+            }
+
+            .acoes {
+                display: none;
+            }
+
+            .conteudo {
+                max-width: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .relatorio {
+                border: none;
+                box-shadow: none;
+                padding: 0;
+            }
+
+            th {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            tr {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="topo">
+    <h1>⌂ Vila Vida</h1>
+    <p>Relatório de Funcionários</p>
+</header>
+
+<main class="conteudo">
+
+    <div class="acoes">
+
+        <a class="botao" href="/relatorios">
+            ← Voltar aos Relatórios
+        </a>
+
+        <button class="botao"
+                type="button"
+                onclick="window.print()">
+            🖨 Imprimir Relatório
+        </button>
+
+    </div>
+
+    <section class="relatorio">
+
+        <h2>Relatório Geral de Funcionários</h2>
+
+        <p>
+            Relação dos funcionários cadastrados
+            no Sistema Vila Vida.
+        </p>
+
+        <div class="resumo">
+
+            <div class="indicador">
+                <strong th:text="${totalFuncionarios}">0</strong>
+                <span>Total de Funcionários</span>
+            </div>
+
+            <div class="indicador">
+                <strong th:text="${funcionariosAtivos}">0</strong>
+                <span>Funcionários Ativos</span>
+            </div>
+
+            <div class="indicador">
+                <strong th:text="${funcionariosInativos}">0</strong>
+                <span>Funcionários Inativos</span>
+            </div>
+
+        </div>
+
+        <div class="tabela-container">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Cargo</th>
+                        <th>Data de Admissão</th>
+                        <th>Situação</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr th:each="funcionario : ${funcionarios}">
+
+                        <td th:text="${funcionario.nome}">
+                            Nome do funcionário
+                        </td>
+
+                        <td th:text="${funcionario.cargo}">
+                            Cargo
+                        </td>
+
+                        <td th:text="${funcionario.dataAdmissao != null ? #temporals.format(funcionario.dataAdmissao, 'dd/MM/yyyy') : '-'}">
+                            -
+                        </td>
+
+                        <td th:text="${funcionario.situacao}">
+                            Ativo
+                        </td>
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(funcionarios)}">
+                        <td colspan="4"
+                            style="text-align:center">
+                            Nenhum funcionário cadastrado.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="rodape">
+            Vila Vida — Santo Antônio do Descoberto — GO
+            | Sistema de Gestão 2026
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>

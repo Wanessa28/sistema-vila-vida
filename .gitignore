@@ -1,0 +1,38 @@
+
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Credenciais e configuracoes locais ###
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.jks
+
+### Backups e bancos de dados ###
+backups/
+*.sql
+*.zip
+*.tar.gz
+
+### Arquivos de erro e logs ###
+*.log
+logs/
+
+### Arquivos temporarios ###
+*.tmp
+*.bak
+
+### Maven ###
+target/
+
+# Copias e arquivos de testes
+/projeto-extraido/
+/atualizacao_teste/

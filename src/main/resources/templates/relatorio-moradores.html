@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Moradores | Vila Vida</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f6fb;
+            color: #19324d;
+        }
+
+        .topo {
+            background: #073766;
+            color: white;
+            padding: 22px 30px;
+        }
+
+        .topo h1 {
+            margin: 0 0 5px;
+            font-size: 25px;
+        }
+
+        .topo p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .conteudo {
+            max-width: 1150px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .acoes {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .botao {
+            background: #0875d1;
+            color: white;
+            padding: 12px 18px;
+            border: 0;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .botao:hover {
+            background: #073766;
+        }
+
+        .relatorio {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 4px 15px #00000010;
+        }
+
+        .relatorio h2 {
+            margin-top: 0;
+            color: #073766;
+        }
+
+        .resumo {
+            margin-bottom: 20px;
+            padding: 14px;
+            background: #eaf3fd;
+            border-radius: 8px;
+        }
+
+        .tabela-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th {
+            background: #073766;
+            color: white;
+            text-align: left;
+            padding: 12px;
+        }
+
+        td {
+            border-bottom: 1px solid #dbe5f0;
+            padding: 12px;
+        }
+
+        tr:nth-child(even) td {
+            background: #f7faff;
+        }
+
+        .rodape {
+            margin-top: 25px;
+            font-size: 12px;
+            color: #607287;
+            text-align: center;
+        }
+
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 12mm;
+            }
+
+            body {
+                background: white;
+            }
+
+            .acoes {
+                display: none;
+            }
+
+            .conteudo {
+                max-width: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .relatorio {
+                box-shadow: none;
+                padding: 0;
+            }
+
+            .topo {
+                background: white;
+                color: #073766;
+                padding: 0 0 15px;
+                border-bottom: 2px solid #073766;
+            }
+
+            th {
+                background: #eaf3fd;
+                color: #073766;
+            }
+
+            tr {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="topo">
+    <h1>Vila Vida</h1>
+    <p>Sistema de Gestão — Relatório de Moradores</p>
+</header>
+
+<main class="conteudo">
+
+    <div class="acoes">
+        <a href="/painel.html" class="botao">
+            ← Voltar ao Painel
+        </a>
+
+        <button type="button"
+                class="botao"
+                onclick="window.print()">
+            🖨 Imprimir Relatório
+        </button>
+    </div>
+
+    <section class="relatorio">
+
+        <h2>Relação de Moradores Cadastrados</h2>
+
+        <div class="resumo">
+            <strong>Total de registros:</strong>
+            <span th:text="${totalMoradores}">0</span>
+        </div>
+
+        <div class="tabela-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Casa</th>
+                        <th>Data de Nascimento</th>
+                        <th>Data de Entrada</th>
+                        <th>Data de Saída</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr th:each="morador : ${moradores}">
+                        <td th:text="${morador.nome}">Nome</td>
+
+                        <td th:text="${morador.numeroCasa}">
+                            01
+                        </td>
+
+                        <td th:text="${morador.dataNascimento != null
+                            ? #temporals.format(
+                                morador.dataNascimento,
+                                'dd/MM/yyyy')
+                            : '-'}">
+                            -
+                        </td>
+
+                        <td th:text="${morador.dataEntrada != null
+                            ? #temporals.format(
+                                morador.dataEntrada,
+                                'dd/MM/yyyy')
+                            : '-'}">
+                            -
+                        </td>
+
+                        <td th:text="${morador.dataSaida != null
+                            ? #temporals.format(
+                                morador.dataSaida,
+                                'dd/MM/yyyy')
+                            : '-'}">
+                            -
+                        </td>
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(moradores)}">
+                        <td colspan="5"
+                            style="text-align:center;">
+                            Nenhum morador cadastrado.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer class="rodape">
+            Vila Vida — Santo Antônio do Descoberto — GO
+            | Sistema de Gestão 2026
+        </footer>
+
+    </section>
+
+</main>
+
+</body>
+</html>

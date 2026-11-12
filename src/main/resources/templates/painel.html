@@ -1,0 +1,568 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Principal | Vila Vida</title>
+
+<style>
+:root {
+    --azul-escuro: #073766;
+    --azul: #0875d1;
+    --verde: #19a65b;
+    --laranja: #f6a623;
+    --fundo: #f2f6fb;
+    --texto: #19324d;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--fundo);
+    color: var(--texto);
+}
+
+.topo {
+    min-height: 72px;
+    background: var(--azul-escuro);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 12px 28px;
+}
+
+.marca {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.marca span {
+    margin-right: 10px;
+}
+
+.identificacao {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 14px;
+}
+
+.sair {
+    background: white;
+    color: #073766;
+    border: none;
+    padding: 11px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.sair:hover {
+    background: #eaf3fd;
+}
+
+.estrutura {
+    display: flex;
+    min-height: calc(100vh - 72px);
+}
+
+.menu {
+    width: 230px;
+    background: #082e56;
+    padding: 22px 12px;
+    flex-shrink: 0;
+}
+
+.menu a,
+.menu .desativado {
+    display: block;
+    padding: 15px;
+    margin-bottom: 7px;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.menu a:hover,
+.menu .ativo {
+    background: var(--azul);
+}
+
+.menu .desativado {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+.conteudo {
+    flex: 1;
+    min-width: 0;
+    padding: 35px;
+}
+
+.boas-vindas h1 {
+    margin: 0 0 8px;
+    font-size: 27px;
+}
+
+.boas-vindas p {
+    margin: 0 0 30px;
+    color: #607287;
+}
+
+/* INDICADORES */
+
+.indicadores {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.indicador {
+    padding: 27px 15px;
+    border-radius: 12px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 5px 15px #00000012;
+}
+
+.indicador .icone {
+    font-size: 35px;
+}
+
+.indicador .numero {
+    display: block;
+    font-size: 35px;
+    font-weight: bold;
+    margin: 12px 0 5px;
+}
+
+.indicador.azul {
+    background: var(--azul);
+}
+
+.indicador.verde {
+    background: var(--verde);
+}
+
+.indicador.laranja {
+    background: var(--laranja);
+}
+
+.indicador .rotulo {
+    font-size: 17px;
+}
+
+
+/* INDICADORES DETALHADOS */
+
+.indicadores-detalhados {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.detalhe {
+    background: white;
+    border: 1px solid #dbe5f0;
+    border-left: 5px solid var(--azul);
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 3px 10px #00000009;
+}
+
+.detalhe .numero {
+    display: block;
+    font-size: 32px;
+    font-weight: bold;
+    margin: 10px 0;
+    color: var(--azul-escuro);
+}
+
+.detalhe .rotulo {
+    font-size: 15px;
+    color: #607287;
+}
+
+.detalhe.disponivel {
+    border-left-color: #19a65b;
+}
+
+.detalhe.ocupada {
+    border-left-color: #0875d1;
+}
+
+.detalhe.manutencao {
+    border-left-color: #f6a623;
+}
+
+.detalhe.ativo {
+    border-left-color: #19a65b;
+}
+
+.detalhe.inativo {
+    border-left-color: #8293a5;
+}
+
+@media (max-width: 850px) {
+    .indicadores-detalhados {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .indicadores-detalhados {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ACESSO RÁPIDO */
+
+.secao {
+    margin-top: 35px;
+}
+
+.secao h2 {
+    font-size: 21px;
+}
+
+.atalhos {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.atalho {
+    background: white;
+    border: 1px solid #dbe5f0;
+    border-radius: 12px;
+    padding: 25px 12px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--azul-escuro);
+    font-weight: bold;
+    box-shadow: 0 3px 10px #00000009;
+    transition: .2s;
+}
+
+a.atalho:hover {
+    transform: translateY(-4px);
+    border-color: var(--azul);
+}
+
+.atalho .icone {
+    display: block;
+    font-size: 32px;
+    margin-bottom: 13px;
+}
+
+.atalho.desativado {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+.rodape {
+    margin-top: 40px;
+    padding-top: 18px;
+    border-top: 1px solid #dbe5f0;
+    font-size: 13px;
+    color: #607287;
+}
+
+@media (max-width: 850px) {
+    .indicadores {
+        grid-template-columns: 1fr;
+    }
+
+    .atalhos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .topo {
+        padding: 12px 15px;
+        flex-wrap: wrap;
+    }
+
+    .marca {
+        font-size: 19px;
+    }
+
+    .identificacao {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .estrutura {
+        flex-direction: column;
+    }
+
+    .menu {
+        width: 100%;
+        display: flex;
+        overflow-x: auto;
+        padding: 10px;
+    }
+
+    .menu a,
+    .menu .desativado {
+        white-space: nowrap;
+        margin: 0 5px 0 0;
+    }
+
+    .conteudo {
+        padding: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- CABEÇALHO -->
+
+<header class="topo">
+
+    <div class="marca">
+        <span>⌂</span>Vila Vida
+    </div>
+
+    <div class="identificacao">
+
+        <span>Sistema de Gestão</span>
+
+        <form th:action="@{/logout}"
+              method="post"
+              style="margin:0;">
+
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}">
+
+            <button type="submit" class="sair">
+                ⏻ Sair do Sistema
+            </button>
+
+        </form>
+
+    </div>
+
+</header>
+
+<div class="estrutura">
+
+    <!-- MENU LATERAL -->
+
+    <nav class="menu" aria-label="Menu principal">
+
+        <a href="/painel.html" class="ativo">
+            ⌂ &nbsp; Início
+        </a>
+
+        <a href="/moradores">
+            ♟ &nbsp; Moradores
+        </a>
+
+        <a href="/moradias">
+            ⌂ &nbsp; Moradias
+        </a>
+
+        <a href="/funcionarios">
+            ♟ &nbsp; Funcionários
+        </a>
+
+        
+
+<a href="/relatorios">
+    ▤ &nbsp; Relatórios
+</a>
+
+
+
+    </nav>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+
+    <main class="conteudo">
+
+        <section class="boas-vindas">
+
+            <h1>
+                Bem-vindo ao Sistema Vila Vida!
+            </h1>
+
+            <p>
+                Sistema de Gestão da Instituição Vila Vida
+            </p>
+
+        </section>
+
+        <!-- INDICADORES AUTOMÁTICOS -->
+
+        <section class="indicadores"
+                 aria-label="Indicadores do sistema">
+
+            <!-- MORADORES -->
+
+            <div class="indicador azul">
+
+                <div class="icone">♟</div>
+
+                <span class="numero"
+                      th:text="${totalMoradores}">
+                    0
+                </span>
+
+                <span class="rotulo">
+                    Moradores
+                </span>
+
+            </div>
+
+            <!-- MORADIAS -->
+
+            <div class="indicador verde">
+
+                <div class="icone">⌂</div>
+
+                <span class="numero"
+                      th:text="${totalMoradias}">
+                    0
+                </span>
+
+                <span class="rotulo">
+                    Moradias
+                </span>
+
+            </div>
+
+            <!-- FUNCIONÁRIOS -->
+
+            <div class="indicador laranja">
+
+                <div class="icone">♟</div>
+
+                <span class="numero"
+                      th:text="${totalFuncionarios}">
+                    0
+                </span>
+
+                <span class="rotulo">
+                    Funcionários
+                </span>
+
+            </div>
+
+        </section>
+
+        <!-- SITUAÇÃO DAS MORADIAS E FUNCIONÁRIOS -->
+
+<section class="secao">
+
+    <h2>Situação atual da instituição</h2>
+
+    <div class="indicadores-detalhados">
+
+        <div class="detalhe disponivel">
+            <span class="rotulo">🏡 Casas disponíveis</span>
+            <span class="numero"
+                  th:text="${moradiasDisponiveis}">0</span>
+        </div>
+
+        <div class="detalhe ocupada">
+            <span class="rotulo">🏠 Casas ocupadas</span>
+            <span class="numero"
+                  th:text="${moradiasOcupadas}">0</span>
+        </div>
+
+        <div class="detalhe manutencao">
+            <span class="rotulo">🔧 Casas em manutenção</span>
+            <span class="numero"
+                  th:text="${moradiasManutencao}">0</span>
+        </div>
+
+        <div class="detalhe ativo">
+            <span class="rotulo">👥 Funcionários ativos</span>
+            <span class="numero"
+                  th:text="${funcionariosAtivos}">0</span>
+        </div>
+
+        <div class="detalhe inativo">
+            <span class="rotulo">📋 Funcionários inativos</span>
+            <span class="numero"
+                  th:text="${funcionariosInativos}">0</span>
+        </div>
+
+    </div>
+
+</section>
+
+        <!-- ACESSO RÁPIDO -->
+
+        <section class="secao">
+
+            <h2>Acesso rápido</h2>
+
+            <div class="atalhos">
+
+                <a class="atalho" href="/moradores/novo">
+
+                    <span class="icone">♟</span>
+
+                    Cadastrar Morador
+
+                </a>
+
+                <a class="atalho" href="/moradias">
+
+                    <span class="icone">⌂</span>
+
+                    Consultar Moradias
+
+                </a>
+
+                <a class="atalho" href="/funcionarios/novo">
+
+                    <span class="icone">♟</span>
+
+                    Cadastrar Funcionário
+
+                </a>
+
+                
+
+<a class="atalho" href="/relatorios">
+    <span class="icone">▤</span>
+    Relatórios
+    <small style="display:block;margin-top:8px">
+        Escolher tipo de relatório
+    </small>
+</a>
+
+              </div>
+
+        </section>
+
+        <!-- RODAPÉ -->
+
+        <footer class="rodape">
+
+            Vila Vida — Santo Antônio do Descoberto — GO
+            | Sistema de Gestão 2026
+
+        </footer>
+
+    </main>
+
+</div>
+
+</body>
+</html>
