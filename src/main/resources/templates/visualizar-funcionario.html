@@ -355,15 +355,6 @@
                 </div>
 
                 <div class="campo">
-                    <span class="rotulo">CPF</span>
-
-                    <span class="valor"
-                          th:text="${funcionario.cpf} ?: '-'">
-                        -
-                    </span>
-                </div>
-
-                <div class="campo">
                     <span class="rotulo">Cargo ou função</span>
 
                     <span class="valor"
@@ -373,13 +364,25 @@
                 </div>
 
                 <div class="campo">
-                    <span class="rotulo">Telefone</span>
+   <div class="campo">
+    <span class="rotulo">CPF</span>
 
-                    <span class="valor"
-                          th:text="${funcionario.telefone} ?: '-'">
-                        -
-                    </span>
-                </div>
+    <span class="valor"
+          th:text="${funcionario.cpf} ?: '-'">
+        -
+    </span>
+</div>
+
+    <span class="valor"
+          th:text="${funcionario.cpf != null and #strings.length(funcionario.cpf) == 11
+              ? #strings.substring(funcionario.cpf, 0, 3) + '.' +
+                #strings.substring(funcionario.cpf, 3, 6) + '.' +
+                #strings.substring(funcionario.cpf, 6, 9) + '-' +
+                #strings.substring(funcionario.cpf, 9, 11)
+              : (funcionario.cpf != null ? funcionario.cpf : '-')}">
+        -
+    </span>
+</div>
 
                 <div class="campo">
                     <span class="rotulo">Data de admissão</span>

@@ -20,11 +20,12 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
     .requestMatchers(
-        "/",
-        "/index.html",
-        "/login.html",
-        "/imagens/**"
-    ).permitAll()
+    "/",
+    "/index.html",
+    "/login.html",
+    "/esqueci-senha",
+    "/imagens/**"
+).permitAll()
     .anyRequest().authenticated()
 )
             .formLogin(form -> form

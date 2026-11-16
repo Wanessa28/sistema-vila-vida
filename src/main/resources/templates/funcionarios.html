@@ -127,11 +127,15 @@ body {
     outline: 2px solid var(--azul);
     border-color: transparent;
 }
-.tabela { overflow-x: auto; }
+.tabela {
+    width: 100%;
+    overflow-x: auto;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 1050px;
+    min-width: 900px;
 }
 th, td {
     padding: 14px 12px;
@@ -195,10 +199,54 @@ tbody tr:hover { background: #f8fbff; }
     .conteudo { padding: 20px; }
     .painel { padding: 15px; }
 }
+
+/* CORREÇÃO DA VISUALIZAÇÃO DOS FUNCIONÁRIOS */
+#listaFuncionarios td {
+    color: #243247 !important;
+}
+
+
+/* MELHORIA DA TABELA DE FUNCIONÁRIOS */
+
+.tabela {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tabela table {
+    width: 100%;
+    min-width: 1100px;
+    border-collapse: collapse;
+}
+
+.tabela th,
+.tabela td {
+    font-size: 12px;
+    padding: 12px 9px;
+    vertical-align: middle;
+}
+
+.tabela th {
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.tabela td:nth-child(2),
+.tabela td:nth-child(4),
+.tabela td:nth-child(5),
+.tabela td:nth-child(6) {
+    white-space: nowrap;
+}
+
+.tabela .acoes {
+    white-space: nowrap;
+}
+
 </style>
 </head>
 
 <body>
+
 <header class="topo">
     <div class="marca">⌂ Vila Vida</div>
 
@@ -206,21 +254,16 @@ tbody tr:hover { background: #f8fbff; }
 
         <span>Sistema de Gestão</span>
 
-        <form th:action="@{/logout}" method="post" style="margin:0;">
+        <form th:action="@{/logout}"
+              method="post"
+              style="margin:0;">
 
             <input type="hidden"
                    th:name="${_csrf.parameterName}"
                    th:value="${_csrf.token}">
 
-            <button type="submit"
-                    style="background:#ffffff;
-                           color:#073766;
-                           border:none;
-                           padding:11px 18px;
-                           border-radius:8px;
-                           font-weight:bold;
-                           cursor:pointer;">
-                ⏻ Sair do Sistema
+            <button type="submit" class="botao secundario">
+                Sair
             </button>
 
         </form>
@@ -228,13 +271,20 @@ tbody tr:hover { background: #f8fbff; }
 </header>
 
 <div class="estrutura">
+
     <nav class="menu" aria-label="Menu principal">
+
         <a href="/painel.html">⌂ &nbsp; Início</a>
+
         <a href="/moradores">♟ &nbsp; Moradores</a>
+
         <a href="/moradias">⌂ &nbsp; Moradias</a>
-        <a href="/funcionarios" class="ativo">♟ &nbsp; Funcionários</a>
-       
-<a href="/relatorios">▤ &nbsp; Relatórios</a>
+
+        <a href="/funcionarios" class="ativo">
+            ♟ &nbsp; Funcionários
+        </a>
+
+        <a href="/relatorios">▤ &nbsp; Relatórios</a>
 
     </nav>
 
@@ -277,9 +327,20 @@ tbody tr:hover { background: #f8fbff; }
                     <tbody id="listaFuncionarios">
                         <tr th:each="funcionario : ${funcionarios}">
                             <td th:text="${funcionario.nome}"></td>
-                            <td th:text="${funcionario.cpf}"></td>
+                            <td th:text="${funcionario.cpf != null and #strings.length(funcionario.cpf) == 11
+    ? #strings.substring(funcionario.cpf, 0, 3) + '.' +
+      #strings.substring(funcionario.cpf, 3, 6) + '.' +
+      #strings.substring(funcionario.cpf, 6, 9) + '-' +
+      #strings.substring(funcionario.cpf, 9, 11)
+    : funcionario.cpf}">
+</td>
                             <td th:text="${funcionario.cargo}"></td>
-                            <td th:text="${funcionario.telefone}"></td>
+                            <td th:text="${funcionario.telefone != null and #strings.length(funcionario.telefone) == 11
+    ? '(' + #strings.substring(funcionario.telefone, 0, 2) + ') ' +
+      #strings.substring(funcionario.telefone, 2, 7) + '-' +
+      #strings.substring(funcionario.telefone, 7, 11)
+    : funcionario.telefone}">
+</td>
                             
 <td th:text="${funcionario.dataAdmissao != null ? #temporals.format(funcionario.dataAdmissao, 'dd/MM/yyyy') : '-'}"></td>
 

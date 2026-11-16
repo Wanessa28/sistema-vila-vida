@@ -342,7 +342,13 @@
                             Telefone de emergência
                         </span>
                         <span class="valor"
-                              th:text="${!#strings.isEmpty(morador.telefoneEmergencia) ? morador.telefoneEmergencia : 'Não informado'}">
+                            th:text="${#strings.isEmpty(morador.telefoneEmergencia)
+    ? 'Não informado'
+    : (#strings.length(morador.telefoneEmergencia) == 11
+        ? '(' + #strings.substring(morador.telefoneEmergencia, 0, 2) + ') ' +
+          #strings.substring(morador.telefoneEmergencia, 2, 7) + '-' +
+          #strings.substring(morador.telefoneEmergencia, 7, 11)
+        : morador.telefoneEmergencia)}"
                         </span>
                     </div>
 

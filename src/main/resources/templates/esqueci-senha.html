@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperação de Senha | Vila Vida</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #edf3f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            color: #17324f;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 460px;
+            background: white;
+            border-radius: 20px;
+            padding: 42px 35px;
+            text-align: center;
+            box-shadow: 0 20px 55px rgba(7, 43, 78, .15);
+        }
+
+        .icone {
+            font-size: 42px;
+            color: #0875d1;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: #073766;
+            font-size: 26px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #64748b;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .aviso {
+            background: #edf3f9;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .aviso strong {
+            color: #073766;
+        }
+
+        .botao {
+            display: block;
+            background: #0875d1;
+            color: white;
+            text-decoration: none;
+            padding: 14px;
+            border-radius: 9px;
+            font-weight: bold;
+            margin-top: 25px;
+        }
+
+        .botao:hover {
+            background: #065ca5;
+        }
+
+        .rodape {
+            font-size: 12px;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="icone">⌂</div>
+
+        <h1>Esqueci minha senha</h1>
+
+        <p>
+            Não consegue acessar o Sistema Vila Vida?
+            Siga as orientações abaixo para solicitar
+            a redefinição de sua senha.
+        </p>
+
+        <div class="aviso">
+            <strong>Como recuperar o acesso?</strong>
+
+            <p>
+                Entre em contato com o administrador
+                responsável pelo Sistema Vila Vida
+                e solicite a redefinição de sua senha.
+            </p>
+
+            <p>
+                Por segurança, sua identidade deverá
+                ser confirmada antes da redefinição.
+                Nunca compartilhe sua senha.
+            </p>
+        </div>
+
+        <a th:href="@{/login.html}" class="botao">
+            Voltar para o Login
+        </a>
+
+        <p class="rodape">
+            Vila Vida • Santo Antônio do Descoberto - GO
+        </p>
+
+    </div>
+
+</body>
+</html>

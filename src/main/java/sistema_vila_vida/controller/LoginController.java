@@ -10,4 +10,9 @@ public class LoginController {
     public String mostrarLogin() {
         return "login";
     }
+
+    @GetMapping("/esqueci-senha")
+    public String mostrarRecuperacaoSenha() {
+        return "esqueci-senha";
+    }
 }
